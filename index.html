@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SATMUS FARM | Fresh Vegetables, Fruits & Organic Seeds</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        farm: {
+                            green: '#1E5128',
+                            lightGreen: '#4E9F3D',
+                            accent: '#D8E9A8',
+                            dark: '#0E1E11',
+                            card: '#16281A',
+                            soil: '#8B5A2B',
+                            cream: '#F5F7F2'
+                        }
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0E1E11;
+            color: #F5F7F2;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Animated Continuous Photo Carousel */
+        @keyframes slideContinuous {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .animate-farm-slide {
+            display: flex;
+            width: 200%;
+            animation: slideContinuous 22s linear infinite;
+        }
+
+        .animate-farm-slide:hover {
+            animation-play-state: paused;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .green-gradient-text {
+            background: linear-gradient(135deg, #A8E6CF 0%, #4E9F3D 50%, #D8E9A8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-farm-lightGreen selection:text-white">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-gradient-to-r from-farm-green via-farm-lightGreen to-farm-green text-white font-medium text-xs sm:text-sm py-2 px-4 text-center tracking-wide flex justify-between items-center">
+        <span class="hidden md:inline"><i class="fa-solid fa-seedling mr-2"></i> 100% Organic, Harvested Fresh Daily</span>
+        <span class="font-bold mx-auto md:mx-0">FRESH FARM PRODUCE & HIGH-YIELD SEEDS | SATMUS FARM</span>
+        <a href="https://wa.me/2349077692506" target="_blank" class="hidden md:inline underline hover:text-farm-accent transition"><i class="fa-brands fa-whatsapp mr-1"></i> Order on WhatsApp</a>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 bg-farm-dark/95 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full bg-farm-lightGreen/20 border border-farm-lightGreen flex items-center justify-center group-hover:scale-105 transition">
+                    <i class="fa-solid fa-leaf text-farm-lightGreen text-xl"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-outfit text-xl sm:text-2xl font-extrabold tracking-wider text-white">SATMUS</span>
+                    <span class="text-[9px] tracking-[0.3em] text-farm-lightGreen font-semibold uppercase -mt-1">FARM MARKET</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden lg:flex items-center gap-8 font-medium text-sm tracking-wider uppercase text-farm-cream/80">
+                <a href="#hero-showcase" class="hover:text-farm-lightGreen transition">Live Harvest</a>
+                <a href="#products" class="hover:text-farm-lightGreen transition">Vegetables</a>
+                <a href="#products" class="hover:text-farm-lightGreen transition">Fresh Fruits</a>
+                <a href="#products" class="hover:text-farm-lightGreen transition">Quality Seeds</a>
+                <a href="#contact" class="hover:text-farm-lightGreen transition">Contact</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-4">
+                <button onclick="toggleSearch()" class="p-2 text-farm-cream hover:text-farm-lightGreen transition">
+                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                </button>
+                
+                <button onclick="toggleCart()" class="relative p-2 text-farm-cream hover:text-farm-lightGreen transition">
+                    <i class="fa-solid fa-basket-shopping text-xl"></i>
+                    <span id="cartCount" class="absolute -top-1 -right-1 bg-farm-lightGreen text-white font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Search Overlay -->
+    <div id="searchModal" class="fixed inset-0 z-50 bg-farm-dark/95 backdrop-blur-md hidden flex flex-col p-6">
+        <div class="max-w-3xl mx-auto w-full pt-12">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-outfit text-xl text-farm-lightGreen">Search SATMUS FARM Market</h3>
+                <button onclick="toggleSearch()" class="text-2xl text-farm-cream hover:text-farm-lightGreen"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="relative">
+                <input type="text" id="searchInput" onkeyup="filterSearch()" placeholder="Search Tomatoes, Onions, Watermelon, Maize Seeds..." class="w-full bg-farm-card border border-farm-lightGreen/30 rounded-lg py-4 px-6 text-white placeholder-farm-cream/50 focus:outline-none focus:border-farm-lightGreen text-lg">
+                <i class="fa-solid fa-magnifying-glass absolute right-6 top-5 text-farm-cream/50 text-xl"></i>
+            </div>
+            <div id="searchResults" class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto hide-scrollbar"></div>
+        </div>
+    </div>
+
+    <!-- Hero Title & Tagline -->
+    <section class="pt-12 pb-6 text-center max-w-4xl mx-auto px-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-farm-lightGreen/10 border border-farm-lightGreen/30 text-farm-lightGreen text-xs uppercase tracking-widest mb-4">
+            <i class="fa-solid fa-wheat-awn"></i> Direct From Our Fields To Your Table
+        </div>
+        <h1 class="font-outfit text-4xl sm:text-6xl font-extrabold tracking-tight text-white mb-4">
+            Fresh Organic <span class="green-gradient-text">Vegetables, Fruits</span> & Premium Seeds
+        </h1>
+        <p class="text-farm-cream/80 text-sm sm:text-base font-light max-w-2xl mx-auto">
+            Order fresh farm harvest, nutrient-rich fruits, and certified high-yield hybrid crop seeds supplied across Nigeria.
+        </p>
+    </section>
+
+    <!-- CONTINUOUS ANIMATED PHOTO SLIDER -->
+    <section id="hero-showcase" class="py-6 overflow-hidden border-y border-white/10 bg-farm-card/50">
+        <p class="text-center text-xs uppercase tracking-widest text-farm-lightGreen font-semibold mb-4">
+            <i class="fa-solid fa-arrows-left-right animate-pulse mr-2"></i> Live Harvest Gallery (Hover to Pause)
+        </p>
+        
+        <div class="relative w-full overflow-hidden">
+            <div class="animate-farm-slide gap-6 px-4">
+                
+                <!-- Slide Item 1 -->
+                <div class="w-72 sm:w-80 h-48 sm:h-56 rounded-2xl overflow-hidden shrink-0 border border-white/10 relative group">
+                    <img src="https://images.unsplash.com/photo-1590779033100-9f60a05a013d?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Fresh Tomatoes">
+                    <div class="absolute inset-0 bg-gradient-to-t from-farm-dark via-transparent to-transparent p-4 flex flex-col justify-end">
+                        <span class="text-xs font-bold text-farm-lightGreen">Fresh Vegetables</span>
+                        <h4 class="font-outfit text-lg font-bold text-white">Ripe Farm Tomatoes</h4>
+                    </div>
+                </div>
+
+                <!-- Slide Item 2 -->
+                <div class="w-72 sm:w-80 h-48 sm:h-56 rounded-2xl overflow-hidden shrink-0 border border-white/10 relative group">
+                    <img src="https://images.unsplash.com/photo-1618897996318-5a901fa6ca71?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Fresh Watermelon">
+                    <div class="absolute inset-0 bg-gradient-to-t from-farm-dark via-transparent to-transparent p-4 flex flex-col justify-end">
+                        <span class="text-xs font-bold text-farm-lightGreen">Fresh Fruits</span>
+                        <h4 class="font-outfit text-lg font-bold text-white">Sweet Organic Watermelon</h4>
+                    </div>
+                </div>
+
+                <!-- Slide Item 3 -->
+                <div class="w-72 sm:w-80 h-48 sm:h-56 rounded-2xl overflow-hidden shrink-0 border border-white/10 relative group">
+                    <img src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Quality Seeds">
+                    <div class="absolute inset-0 bg-gradient-to-t from-farm-dark via-transparent to-transparent p-4 flex flex-col justify-end">
+                        <span class="text-xs font-bold text-farm-lightGreen">High-Yield Seeds</span>
+                        <h4 class="font-outfit text-lg font-bold text-white">Hybrid Corn & Grain Seeds</h4>
+                    </div>
+                </div>
+
+                <!-- Slide Item 4 -->
+                <div class="w-72 sm:w-80 h-48 sm:h-56 rounded-2xl overflow-hidden shrink-0 border border-white/10 relative group">
+                    <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Leafy Greens">
+                    <div class="absolute inset-0 bg-gradient-to-t from-farm-dark via-transparent to-transparent p-4 flex flex-col justify-end">
+                        <span class="text-xs font-bold text-farm-lightGreen">Organics</span>
+                        <h4 class="font-outfit text-lg font-bold text-white">Green Spinach & Lettuce</h4>
+                    </div>
+                </div>
+
+                <!-- Repeat Items for Seamless Loop -->
+                <div class="w-72 sm:w-80 h-48 sm:h-56 rounded-2xl overflow-hidden shrink-0 border border-white/10 relative group">
+                    <img src="https://images.unsplash.com/photo-1590779033100-9f60a05a013d?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Fresh Tomatoes">
+                    <div class="absolute inset-0 bg-gradient-to-t from-farm-dark via-transparent to-transparent p-4 flex flex-col justify-end">
+                        <span class="text-xs font-bold text-farm-lightGreen">Fresh Vegetables</span>
+                        <h4 class="font-outfit text-lg font-bold text-white">Ripe Farm Tomatoes</h4>
+                    </div>
+                </div>
+
+                <div class="w-72 sm:w-80 h-48 sm:h-56 rounded-2xl overflow-hidden shrink-0 border border-white/10 relative group">
+                    <img src="https://images.unsplash.com/photo-1618897996318-5a901fa6ca71?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Fresh Watermelon">
+                    <div class="absolute inset-0 bg-gradient-to-t from-farm-dark via-transparent to-transparent p-4 flex flex-col justify-end">
+                        <span class="text-xs font-bold text-farm-lightGreen">Fresh Fruits</span>
+                        <h4 class="font-outfit text-lg font-bold text-white">Sweet Organic Watermelon</h4>
+                    </div>
+                </div>
+
+                <div class="w-72 sm:w-80 h-48 sm:h-56 rounded-2xl overflow-hidden shrink-0 border border-white/10 relative group">
+                    <img src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Quality Seeds">
+                    <div class="absolute inset-0 bg-gradient-to-t from-farm-dark via-transparent to-transparent p-4 flex flex-col justify-end">
+                        <span class="text-xs font-bold text-farm-lightGreen">High-Yield Seeds</span>
+                        <h4 class="font-outfit text-lg font-bold text-white">Hybrid Corn & Grain Seeds</h4>
+                    </div>
+                </div>
+
+                <div class="w-72 sm:w-80 h-48 sm:h-56 rounded-2xl overflow-hidden shrink-0 border border-white/10 relative group">
+                    <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Leafy Greens">
+                    <div class="absolute inset-0 bg-gradient-to-t from-farm-dark via-transparent to-transparent p-4 flex flex-col justify-end">
+                        <span class="text-xs font-bold text-farm-lightGreen">Organics</span>
+                        <h4 class="font-outfit text-lg font-bold text-white">Green Spinach & Lettuce</h4>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Catalog Section -->
+    <section id="products" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+            <div>
+                <p class="text-farm-lightGreen text-xs font-semibold uppercase tracking-widest mb-1">Our Produce Catalog</p>
+                <h2 class="font-outfit text-3xl font-bold text-white">Shop Farm Fresh Products</h2>
+            </div>
+
+            <!-- Categories Filter -->
+            <div class="flex items-center gap-2 overflow-x-auto hide-scrollbar mt-6 md:mt-0 py-2">
+                <button onclick="filterCategory('all')" class="cat-btn active border border-farm-lightGreen bg-farm-lightGreen text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition whitespace-nowrap">All Items</button>
+                <button onclick="filterCategory('vegetables')" class="cat-btn border border-white/20 text-farm-cream hover:border-farm-lightGreen px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition whitespace-nowrap">Vegetables</button>
+                <button onclick="filterCategory('fruits')" class="cat-btn border border-white/20 text-farm-cream hover:border-farm-lightGreen px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition whitespace-nowrap">Fresh Fruits</button>
+                <button onclick="filterCategory('seeds')" class="cat-btn border border-white/20 text-farm-cream hover:border-farm-lightGreen px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition whitespace-nowrap">High-Yield Seeds</button>
+            </div>
+        </div>
+
+        <div id="farmProductsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+    </section>
+
+    <!-- Slide-Out Shopping Basket Drawer -->
+    <div id="cartDrawer" class="fixed inset-y-0 right-0 z-50 w-full sm:w-96 bg-farm-dark border-l border-white/10 transform translate-x-full transition-transform duration-300 flex flex-col justify-between">
+        <div class="p-6 border-b border-white/10 flex justify-between items-center">
+            <h3 class="font-outfit text-lg font-bold text-farm-lightGreen"><i class="fa-solid fa-basket-shopping mr-2"></i> Your Basket (<span id="cartDrawerCount">0</span>)</h3>
+            <button onclick="toggleCart()" class="text-xl text-farm-cream hover:text-farm-lightGreen"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div id="cartItemsContainer" class="p-6 flex-1 overflow-y-auto space-y-4">
+            <p id="emptyCartMsg" class="text-farm-cream/50 text-center py-12 text-sm">Your basket is empty.</p>
+        </div>
+
+        <div class="p-6 border-t border-white/10 bg-farm-card space-y-4">
+            <div class="flex justify-between items-center font-bold text-white">
+                <span>Subtotal</span>
+                <span id="cartSubtotal" class="text-farm-lightGreen text-lg">₦ 0</span>
+            </div>
+            <button onclick="checkoutWhatsApp()" class="w-full bg-farm-lightGreen hover:bg-farm-green text-white font-bold text-sm tracking-wider uppercase py-4 rounded-lg transition duration-300 flex items-center justify-center gap-2">
+                <i class="fa-brands fa-whatsapp text-lg"></i> Order via WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-farm-card border-t border-white/10 pt-12 pb-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div>
+                <div class="flex items-center gap-2 mb-3">
+                    <i class="fa-solid fa-leaf text-farm-lightGreen text-xl"></i>
+                    <span class="font-outfit text-xl font-bold text-white">SATMUS FARM</span>
+                </div>
+                <p class="text-xs text-farm-cream/70 leading-relaxed">
+                    Providing fresh organic vegetables, fruits, and high-germination seed varieties direct from our farm to homes, markets, and agribusinesses across Nigeria.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-outfit text-sm font-bold text-farm-lightGreen uppercase mb-3">Farm Locations</h4>
+                <p class="text-xs text-farm-cream/80"><i class="fa-solid fa-location-dot mr-2 text-farm-lightGreen"></i> Kano & Bauchi State, Nigeria</p>
+                <p class="text-xs text-farm-cream/80 mt-2"><i class="fa-solid fa-phone mr-2 text-farm-lightGreen"></i> +234 907 769 2506</p>
+            </div>
+            <div>
+                <h4 class="font-outfit text-sm font-bold text-farm-lightGreen uppercase mb-3">Wholesale & Bulk Orders</h4>
+                <p class="text-xs text-farm-cream/70 mb-3">Contact us directly for bulk bag orders or farm delivery contracts.</p>
+                <a href="https://wa.me/2349077692506" target="_blank" class="inline-block bg-farm-lightGreen text-white text-xs font-bold px-4 py-2 rounded-lg">Contact Farm Manager</a>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 text-center border-t border-white/5 pt-6 text-xs text-farm-cream/50">
+            © 2026 SATMUS FARM. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Script Logic -->
+    <script>
+        const farmProducts = [
+            { id: 101, name: "Fresh Basket Tomatoes (50kg)", category: "vegetables", price: 35000, img: "https://images.unsplash.com/photo-1590779033100-9f60a05a013d?q=80&w=800&auto=format&fit=crop" },
+            { id: 102, name: "Sweet Organic Watermelon (Per Piece)", category: "fruits", price: 2500, img: "https://images.unsplash.com/photo-1618897996318-5a901fa6ca71?q=80&w=800&auto=format&fit=crop" },
+            { id: 103, name: "Hybrid Yellow Maize Seeds (5kg)", category: "seeds", price: 18000, img: "https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?q=80&w=800&auto=format&fit=crop" },
+            { id: 104, name: "Fresh Red Onions (Bag)", category: "vegetables", price: 28000, img: "https://images.unsplash.com/photo-1618512496248-a07fe83aa8cf?q=80&w=800&auto=format&fit=crop" },
+            { id: 105, name: "Organic Orange Harvest (Carton)", category: "fruits", price: 12000, img: "https://images.unsplash.com/photo-1547514701-42782101795e?q=80&w=800&auto=format&fit=crop" },
+            { id: 106, name: "High-Yield Tomato Seeds (500g)", category: "seeds", price: 15000, img: "https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?q=80&w=800&auto=format&fit=crop" },
+            { id: 107, name: "Fresh Bell Peppers / Tatase (Bag)", category: "vegetables", price: 32000, img: "https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?q=80&w=800&auto=format&fit=crop" },
+            { id: 108, name: "Ripe Farm Mangoes (Basket)", category: "fruits", price: 8000, img: "https://images.unsplash.com/photo-1553279768-865429fa0078?q=80&w=800&auto=format&fit=crop" }
+        ];
+
+        let cart = [];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderFarmProducts(farmProducts);
+        });
+
+        function formatNaira(amount) {
+            return "₦ " + amount.toLocaleString();
+        }
+
+        function renderFarmProducts(items) {
+            const grid = document.getElementById("farmProductsGrid");
+            grid.innerHTML = items.map(product => `
+                <div class="bg-farm-card border border-white/5 rounded-xl overflow-hidden flex flex-col justify-between hover:border-farm-lightGreen/40 transition">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="${product.img}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <span class="text-[10px] text-farm-lightGreen uppercase font-bold tracking-widest">${product.category}</span>
+                        <h4 class="font-outfit text-base font-bold text-white line-clamp-1">${product.name}</h4>
+                        <p class="text-sm font-bold text-farm-lightGreen">${formatNaira(product.price)}</p>
+                        <button onclick="addToCart(${product.id})" class="w-full mt-2 bg-farm-green hover:bg-farm-lightGreen text-white text-xs font-bold py-2.5 rounded-lg transition uppercase">
+                            Add To Basket
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-farm-lightGreen', 'text-white', 'active');
+                btn.classList.add('text-farm-cream');
+            });
+            event.target.classList.add('bg-farm-lightGreen', 'text-white', 'active');
+
+            if(cat === 'all') {
+                renderFarmProducts(farmProducts);
+            } else {
+                renderFarmProducts(farmProducts.filter(p => p.category === cat));
+            }
+        }
+
+        function toggleCart() {
+            document.getElementById("cartDrawer").classList.toggle("translate-x-full");
+        }
+
+        function addToCart(id) {
+            const item = farmProducts.find(p => p.id === id);
+            const existing = cart.find(c => c.id === id);
+            if(existing) { existing.qty += 1; } else { cart.push({...item, qty: 1}); }
+            updateCartUI();
+            toggleCart();
+        }
+
+        function removeFromCart(idx) {
+            cart.splice(idx, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById("cartItemsContainer");
+            const countEl = document.getElementById("cartCount");
+            const drawerCount = document.getElementById("cartDrawerCount");
+            const subtotalEl = document.getElementById("cartSubtotal");
+
+            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            countEl.innerText = totalCount;
+            drawerCount.innerText = totalCount;
+            subtotalEl.innerText = formatNaira(subtotal);
+
+            if(cart.length === 0) {
+                container.innerHTML = `<p class="text-farm-cream/50 text-center py-12 text-sm">Your basket is empty.</p>`;
+            } else {
+                container.innerHTML = cart.map((item, idx) => `
+                    <div class="flex justify-between items-center bg-farm-card p-3 rounded-lg border border-white/5">
+                        <div class="flex items-center gap-3">
+                            <img src="${item.img}" class="w-12 h-12 object-cover rounded">
+                            <div>
+                                <h4 class="font-outfit text-xs font-bold text-white line-clamp-1">${item.name}</h4>
+                                <p class="text-[10px] text-farm-cream/50">Qty: ${item.qty}</p>
+                                <p class="text-xs font-bold text-farm-lightGreen">${formatNaira(item.price * item.qty)}</p>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${idx})" class="text-farm-cream/50 hover:text-red-400 text-sm"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function toggleSearch() {
+            document.getElementById("searchModal").classList.toggle("hidden");
+        }
+
+        function filterSearch() {
+            const query = document.getElementById("searchInput").value.toLowerCase();
+            const results = farmProducts.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
+            const container = document.getElementById("searchResults");
+
+            if(query === "") { container.innerHTML = ""; return; }
+            container.innerHTML = results.map(p => `
+                <div class="bg-farm-card p-3 rounded-lg flex items-center gap-4 cursor-pointer hover:border-farm-lightGreen border border-white/10" onclick="addToCart(${p.id}); toggleSearch();">
+                    <img src="${p.img}" class="w-12 h-12 object-cover rounded">
+                    <div>
+                        <h4 class="font-outfit text-xs font-bold text-white">${p.name}</h4>
+                        <p class="text-xs text-farm-lightGreen">${formatNaira(p.price)}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function checkoutWhatsApp() {
+            if(cart.length === 0) { alert("Your basket is empty!"); return; }
+            let message = "Hello SATMUS FARM, I want to order farm produce:\n\n";
+            cart.forEach((item, i) => {
+                message += `${i + 1}. ${item.name} x${item.qty} - ${formatNaira(item.price * item.qty)}\n`;
+            });
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            message += `\n*Total Amount:* ${formatNaira(subtotal)}\n\nPlease advise on delivery timing.`;
+            window.open(`https://wa.me/2349077692506?text=${encodeURIComponent(message)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
